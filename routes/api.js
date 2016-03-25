@@ -1,6 +1,6 @@
 var router = require('express').Router();
 // var Promise = require('bluebird');
-var dbconn = require('mongodb').MongoClient.connect('mongodb://localhost/l2');
+var dbconn = require('mongodb').MongoClient.connect('mongodb://localhost/l5');
 
 router.get('/login', function(req, res, next) {
     var resp = {};

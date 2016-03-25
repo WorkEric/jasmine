@@ -28,7 +28,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({url:'mongodb://localhost/l2'})
+    store: new MongoStore({url:'mongodb://localhost/l5'})
 }));
 
 app.use('/', routes);
