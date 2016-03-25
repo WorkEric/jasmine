@@ -106,13 +106,20 @@ describe('test login api', function() {
                         url: url,
                         headers: {
                             cookie: request.cookie(login.cookie)
-                        }
+                        },
+                        json: true
                     }, function(err, response, body) {
                         console.log(err, body);
                         !!err && reject(err) || resolve(body);
                     });
                 });
             })
-            .then(done).catch(console.log);
+            .then(function(info){
+                expect(info).toEqual({
+                    usr: 'xyz'
+                });
+                done();
+            })
+            .catch(done);
     });
 });
