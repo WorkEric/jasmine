@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 var _ = require('lodash');
+var Q = require('q');
 
 function parseLine(l, interview, interviews) {
     var line = l.trim();
@@ -48,22 +49,27 @@ function parseFile(file) {
 
 function parseDir(dir) {
     return fs.readdirAsync(dir).then(function(files) {
-        var promises = _.map(files, function(file) {
-            var results = [];
+        var promise = Q();
+        var results = [];
+        _.map(files, function(file) {
             var filePath = dir + '/' + file;
             var fsStat = fs.statSync(filePath);
-            if (fsStat.isDirectory()) results = parseDir(filePath);
+            if (fsStat.isDirectory())
+                promise = promise.then(function() {
+                    return parseDir(filePath).then(function(its) {
+                        return results.concat(its);
+                    });
+                })
             else if (fsStat.isFile() && file.endsWith('.txt'))
-                results = parseFile(filePath);
+                promise = promise.then(function() {
+                    return parseFile(filePath).then(function(its) {
+                        results = results.concat(its);
+                        return results;
+                    });
+                })
             else console.log('ignore', filePath);
-            return results;
         });
-        return Promise.all(promises).then(function(interviewses) {
-            console.log(interviewses.length);
-            return _.reduce(interviewses, function(result, interviews) {
-                return result.concat(interviews);
-            }, []);
-        });
+        return promise;
     });
 }
 
