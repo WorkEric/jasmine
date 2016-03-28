@@ -1009,3 +1009,22 @@ Date: 09/30/2015
 8. automated testing
 9. integration testing
 10. regression testing
+
+-----------------------------------------------------------------------------------------------------------
+Client: TCS / Barclays
+Candidate: Frank Nan
+Type: F2F
+Date: 12/17/2015
+
+1. polymorphism
+2. composition vs. inheritance
+3. JVM memory allocation combined with GC questions, like, how could system know that there are no refernces point to certain resources?
+4. design question
+5. writing code about receiving the data from rest service, based on your lastproject environment.
+6. 2 algorithms
+7. 2 sqls
+8. singleton, why double check, is it real singleton? what is reflaction you've mentioned? why we use reflaction in java?
+9. design patterns you used, explain
+10. multithreading questions
+
+11. immutable class questions

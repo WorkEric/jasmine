@@ -846,3 +846,36 @@ Date: 01/16/2015
 12. SQL query: emp(emp, dept, sal), leave(emp, leaves)
       Find emp, dept, number of leaves for those employees whose number of leaves is greater than 0
       Find dept, number of leaves (leaves>0)
+-----------------------------------------------------------------------------------------------------------
+Client: JP Morgan & Chase
+Candidate: Charlie Li
+Type: Phone
+Date: 02/03/2015
+
+1. introduce about the project
+2. what did you do in your last project
+3. spring mvc workflow
+4. spring security config
+5. spring security to distinguish user and admin
+6. restful webservice
+7. how to test your web service
+8. maven repo
+9. any questions?
+
+-----------------------------------------------------------------------------------------------------------
+Client: Mphasis / JPMC
+Candidate: Jeffrey Qiao
+Type: Phone
+Date: 02/04/2016
+
+1. recent project, what tech you worked on, responsibility
+2. how good you in hibernate and spring
+3. bean scope, change from single to prototype
+4. what you work on spring (MVC
+5. spring IoC, what kind of injections you used in spring, why do you need setter/constructor injection
+6. get vs load method in hibernate
+7. create immutable obj in java, string is immutable (String x=”123”; x.append(“45”), x is “12345” so why it is immutable?)
+8. rest and soap u have used. which scenario use which one
+9. life cycle of jsp
+10. can we declared a constructor in servlet?
+11. questions for vendor.
