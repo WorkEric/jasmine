@@ -1,5 +1,6 @@
 var fs = require('fs');
-var interviews = [];
+var _ = require('lodash');
+var Q = require('q');
 
 function parseLine(l, interview, interviews) {
     var line = l.trim();
@@ -29,7 +30,7 @@ function parseLine(l, interview, interviews) {
     return interview;
 }
 
-function parseFile(file, interviews) {
+function parseFile(file) {
     console.log('parse file', file);
     var interviews = [];
 
@@ -46,33 +47,29 @@ function parseFile(file, interviews) {
                 interview = parseLine(l, interview, interviews);
             });
             if (!!interview.Client) interviews.push(interview);
+            console.log(interviews.length);
             resolve(interviews);
         });
     });
 }
 
 function parseDir(dir) {
-    var promises = [];
-    return new Promise(function(resolve, reject) {
-        fs.readdir(dir, function(err, files) {
-            console.log('read dir', err, files.length);
-            if (err) return;
-            files.forEach(function(file) {
-                var filePath = dir + '/' + file;
-                var fsStat = fs.statSync(filePath);
-                if (fsStat.isDirectory()) promises.push(parseDir(filePath));
-                else if (fsStat.isFile() && file.endsWith('.txt'))
-                    promises.push(parseFile(filePath));
-                else console.log('ignore', filePath);
-            });
-            Promise.all(promises).then(function(interviewses){
-                var interviews = [];
-                interviewses.forEach(function(its){
-                    interviews = interviews.concat(its);
-                });
-                resolve(interviews);
-            });
-            console.log('read dir finish', dir);
+    return Q.nfcall(fs.readdir, dir).then(function(files) {
+        var promises = _.map(files, function(file) {
+            var results = [];
+            var filePath = dir + '/' + file;
+            var fsStat = fs.statSync(filePath);
+            if (fsStat.isDirectory()) results = parseDir(filePath);
+            else if (fsStat.isFile() && file.endsWith('.txt'))
+                results = parseFile(filePath);
+            else console.log('ignore', filePath);
+            return results;
+        });
+        return Promise.all(promises).then(function(interviewses) {
+            console.log(interviewses.length);
+            return _.reduce(interviewses, function(result, interviews) {
+                return result.concat(interviews);
+            }, []);
         });
     });
 }
